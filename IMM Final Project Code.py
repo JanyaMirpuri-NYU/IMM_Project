@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 #PART II
 
 g = 9.81
-l = 10
+l = 5
 T0 = math.pi/4
 dT0 = 0
 
@@ -67,7 +67,7 @@ plt.show()
 #PART II.2
 
 g = 9.81
-l = 10
+l = 5
 
 dT0 = 0
 #define timescale
@@ -133,7 +133,7 @@ for T0 in T0_choices:
     axis[j].plot(t/tau,T, label="Euler's")
     axis[j].plot(t/tau, Y2, label = "Analytic")
     axis[j].set_ylabel("$\\theta$", fontdict = {'fontsize':18})
-    axis[j].set_title(str(j+1) +") $\\theta_0 = $ " + str(round(T0/math.pi,4)) + str("$\\pi$"), fontdict = {"fontsize":18})
+    axis[j].set_title(str(chr(j+97)) +") $\\theta_0 = $ " + str(round(T0/math.pi,4)) + str("$\\pi$"), fontdict = {"fontsize":18})
     axis[j].legend(loc="lower right")
     j+=1
     
@@ -146,10 +146,10 @@ plt.show()
 #define timescale
 
 g = 9.81
-l = 10
+l = 5
 T0 = math.pi/4
 a = 1
-m = 10
+m = 5
 dT0 = 0
 
 tau = 2*math.pi*math.pow(l/g, 0.5)
@@ -191,7 +191,7 @@ labels = [l.get_label() for l in lines]
 plt.legend(lines, labels,ncol = 2, frameon=False, title="Drag Constant k")
 plt.show()
 
-figure, axis = plt.subplots(4, 1, figsize=(17, 12))
+figure, axis = plt.subplots(4, 1, figsize=(10, 20))
 j = 0
 for k in k_choices:
     
@@ -208,13 +208,75 @@ for k in k_choices:
     
     axis[j].set_ylabel("$d\\theta/dt$", fontdict = {"fontsize":18})
     axis[j].plot(T,dT)
-    axis[j].set_title("Drag Constant: " + str(k),  fontdict = {"fontsize":18})
+    axis[j].set_title(str(chr(j+97)) +") Drag Constant: " + str(k),  fontdict = {"fontsize":18})
 
     j+=1
     
 plt.xlabel("$\\theta$", fontdict = {"fontsize":18})
 
 plt.show()
+
+
+
+
+
+
+figure, axis = plt.subplots(4, 1, figsize=(10,20))
+
+g = 9.81
+l = 5
+T0 = math.pi/4
+a = 1
+m = 5
+dT0 = 0
+k = 0.5
+
+tau = 2*math.pi*math.pow(l/g, 0.5)
+
+tf = 5*tau
+
+dt = 0.0001*tau
+
+LAMBDA = 0.5*(-k/m)*(math.pi*a*a)
+
+MU = math.sqrt(4*(g/l)-(k/m)*(math.pi*a*a))/2
+
+T01= 0
+
+def func(t):
+    y = T01*math.exp(LAMBDA*t)*math.cos(MU*t) -(LAMBDA*T01/MU)*math.exp(LAMBDA*t)*math.sin(MU*t)
+    return y
+
+
+
+j = 0
+
+for T0 in T0_choices:
+    T01 = T0
+    
+    T = np.zeros(num_steps)
+    T[0] = T0
+    
+    dT = np.zeros(num_steps)
+    dT[0] = dT0
+    
+    #euler's method
+    for i in range(num_steps-1):
+        T[i+1] = T[i] + dT[i]*dt
+        dT[i+1] = dT[i] - (k/m)*(math.pi*a*a)*(dT[i])*dt - (g/l)*(math.sin(T[i]))*dt
+        
+    Y2 = [func(i) for i in t]
+    axis[j].plot(t/tau,T, label="Euler's")
+    axis[j].plot(t/tau, Y2, label = "Analytic")
+    axis[j].set_ylabel("$\\theta$", fontdict = {'fontsize':18})
+    axis[j].set_title(str(chr(j+97)) +") $\\theta_0 = $ " + str(round(T0/math.pi,4)) + str("$\\pi$"), fontdict = {"fontsize":18})
+    axis[j].legend(loc="lower right")
+    j+=1
+    
+plt.xlabel("t / $\\psi$", fontdict = {'fontsize': 18})
+plt.show()
+
+
 #%%
 
 #PART IV
@@ -222,10 +284,10 @@ plt.show()
 #define timescale
 
 g = 9.81
-l = 10
+l = 5
 T0 = math.pi/4
 a = 1
-m = 10
+m = 5
 dT0 = 0
 
 tau = 2*math.pi*math.pow(l/g, 0.5)
@@ -271,10 +333,10 @@ plt.show()
 #PART V (STILL IN PROCESS!!!)
 
 g = 9.81
-l1 = 10
-m1 = 10
-l2 = 10
-m2 = 10
+l1 = 5
+m1 = 5
+l2 = 5
+m2 = 5
 T10 = math.pi/4
 
 dT0 = 0
@@ -294,15 +356,12 @@ dt = t[1]-t[0] #redefine dt to match the length of time step in t
 T20_choices = [math.pi/16, math.pi/8, math.pi/4, math.pi/2]
 
 plt.figure()
-plt.title("Euler's Method Results by Varying Second Initial Theta")
+#plt.title("Euler's Method Results by Varying Second Initial Theta")
 plt.xlabel("t / $\\psi$")
 plt.ylabel("$\\theta_1$")
 lines = []
 
 for T20 in T20_choices:
-
-
-
     
     T1 = np.zeros(num_steps)
     T1[0] = T10
