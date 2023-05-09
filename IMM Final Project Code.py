@@ -330,7 +330,7 @@ plt.legend(lines, labels,ncol = 2, frameon=False, title="Drag Constant k")
 plt.show()
                          
 #%%
-#PART V (STILL IN PROCESS!!!)
+#PART V
 
 g = 9.81
 l1 = 5
